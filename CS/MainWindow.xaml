@@ -1,0 +1,32 @@
+﻿<Window x:Class="E20031.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+        xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+        xmlns:dxgt="http://schemas.devexpress.com/winfx/2008/xaml/grid/themekeys"
+        xmlns:dxi="http://schemas.devexpress.com/winfx/2008/xaml/core/internal"
+        xmlns:local="clr-namespace:E20031"
+        Title="MainWindow"
+        Width="525"
+        Height="550">
+
+    <Window.DataContext>
+        <local:TestViewModel />
+    </Window.DataContext>
+
+    <Window.Resources>
+        <ControlTemplate x:Key="emptyTemplate" />
+        <Style x:Key="{dxgt:GridColumnHeaderThemeKey ResourceKey=FilterAreaStyle, IsThemeIndependent=true}" TargetType="{x:Type dxe:PopupBaseEdit}">
+            <Setter Property="Foreground" Value="{dxi:ThemeResource {dxgt:GridColumnHeaderThemeKey ResourceKey=FilterPopupForegroundBrush}}" />
+            <Setter Property="Template" Value="{dxi:ThemeResource {dxgt:GridColumnHeaderThemeKey ResourceKey=FilterAreaTemplate}}" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=FieldName, Converter={local:FilterButtonvisibilityConverter}}" Value="False">
+                    <Setter Property="Template" Value="{StaticResource emptyTemplate}" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <dxg:GridControl x:Name="grid" AutoGenerateColumns="AddNew" ItemsSource="{Binding Records}" />
+
+</Window>
